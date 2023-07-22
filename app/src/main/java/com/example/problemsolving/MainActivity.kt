@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlin.math.abs
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "google"
@@ -11,19 +13,244 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val test = arrayOf(3, 10, 2, 9)
-        bonAppetit(test, 1, 12)
+        val test = arrayOf(73, 67, 38, 33)
+        Log.d(TAG, kangaroo(14, 4, 98, 2))
+
+    }
+
+    fun kangaroo(x1: Int, v1: Int, x2: Int, v2: Int): String {
+        if (v1 * v2 < 0 && x2 - x1 > v1 - v2){
+            return "NO"
+        }
+        // Write your code here
+        var distanceOne = x1
+        var distanceTwo = x2
+        for (j in 0..10000
+        ) {
+            distanceOne += v1
+            distanceTwo += v2
+            Log.d(TAG, "$distanceOne  $distanceTwo")
+            if (distanceOne == distanceTwo) {
+                return "YES"
+            }
+
+        }
+        return "NO"
+
+    }
+
+    fun utopianTree(n: Int): Int {
+        // Write your code here
+        var treeHeight = 1
+        for (cycle in 1..n) {
+            if (cycle % 2 != 0) {
+                treeHeight *= 2
+            } else {
+                treeHeight += 1
+            }
+        }
+        return treeHeight
+
+    }
+
+    fun beautifulDays(i: Int, j: Int, k: Int): Int {
+        // Write your code here
+        var beautifulCount = 0
+        for (num in i..j) {
+            val numRev = num.toString().reversed().toInt()
+            //  Log.d(TAG, "${num / k}  ${numRev / k}")
+            if ((num - numRev) % k == 0) {
+                beautifulCount += 1
+            }
+
+        }
+        return beautifulCount
+
+    }
+
+    fun solve(meal_cost: Double, tip_percent: Int, tax_percent: Int): Unit {
+        val tipCoast = ((tip_percent / 100) * meal_cost)
+        Log.d(TAG, "tip ${tip_percent / 100}")
+        val taxCoast = ((tax_percent.toDouble() / 100) * meal_cost)
+        val total = tipCoast + meal_cost + taxCoast
+        Log.d(TAG, "$tipCoast  $taxCoast ${total.toInt()}")
+        println(Math.round(total))
+
+    }
+
+    fun countingValleys(steps: Int, path: String): Int {
+        // Write your code here
+        var valleyCount = 0
+        var aboveSeaSteps = 0
+        val elevationsList = mutableListOf<Int>()
+        val pathList = path.toList()
+        pathList.forEach { path ->
+            if (path == 'U') {
+                aboveSeaSteps += 1
+            } else {
+                aboveSeaSteps -= 1
+            }
+            elevationsList.add(aboveSeaSteps)
+
+        }
+        Log.d(TAG, "$elevationsList")
+        var lastElevation = 0
+        elevationsList.forEach { elevation ->
+            Log.d(TAG, "last $lastElevation current $elevation")
+            if (lastElevation < 0 && elevation >= 0) {
+                valleyCount += 1
+            }
+            lastElevation = elevation
+        }
+
+        return valleyCount
+
+    }
+
+    fun timeConversion(s: String): String {
+        val indicator = s.toList().reversed()[1]
+        val isPm = indicator == 'P'
+        Log.d(TAG, "indicator is $indicator $isPm")
+        val timeWithoutLast2 = s.dropLast(2)
+        Log.d(TAG, "time without $timeWithoutLast2")
+        val hour = "${timeWithoutLast2[0]}${timeWithoutLast2[1]}"
+        val timeWithoutHour = timeWithoutLast2.drop(2)
+        Log.d(TAG, "hour is $hour")
+        return if (isPm) {
+            val militaryHour = if (hour.toInt() != 12) hour.toInt() + 12 else hour.toInt()
+            "$militaryHour$timeWithoutHour"
+        } else {
+            if (hour == "12") {
+                "00$timeWithoutHour"
+            } else {
+                timeWithoutLast2
+            }
+
+        }
+
+    }
+
+    fun countApplesAndOranges(
+        s: Int,
+        t: Int,
+        a: Int,
+        b: Int,
+        apples: Array<Int>,
+        oranges: Array<Int>
+    ): Unit {
+        // Write your code here
+        val houseRange = s..t
+        var appleCount = 0
+        var orangeCount = 0
+        apples.forEach { apple ->
+            if ((apple + a) in houseRange) {
+                appleCount++
+            }
+
+        }
+        println(appleCount)
+        oranges.forEach { orange ->
+            if ((orange + b) in houseRange) {
+                orangeCount++
+            }
+        }
+        println(orangeCount)
+        Log.d(TAG, "$appleCount  $orangeCount")
+
+    }
+
+    fun gradingStudents(grades: Array<Int>): Array<Int> {
+        // Write your code here
+        val finalGrades = mutableListOf<Int>()
+        grades.forEach { grade ->
+
+            if (grade > 37) {
+                val different = 5 - (grade % 5)
+                val nextRound = grade + different
+                if (different < 3) {
+                    finalGrades.add(nextRound)
+                } else {
+                    finalGrades.add(grade)
+                }
+                Log.d(TAG, "diff $different  $grade  $nextRound")
+
+            } else {
+                Log.d(TAG, "student failed $grade")
+                finalGrades.add(grade)
+            }
+
+            Log.d(TAG, "grade is $grade  list $finalGrades")
+
+        }
+
+        return finalGrades.toTypedArray()
+    }
+
+    fun superReducedString(s: String): String {
+        val sequence = s.toMutableList()
+        // Write your code here
+        for (i in sequence.indices) {
+            try {
+                val firstChar = s[i]
+                val secondChar = s[i + 1]
+                Log.d(TAG, "$firstChar == $secondChar")
+                if (firstChar == secondChar) {
+                    sequence.remove(firstChar)
+                    sequence.remove(secondChar)
+                    Log.d(TAG, sequence.toString())
+                }
+            } catch (e: java.lang.Exception) {
+
+            }
+            //   Log.d(TAG,"first $firstChar $i")
+
+        }
+        return sequence.joinToString("")
+    }
+
+    fun divisibleSumPairs(n: Int, k: Int, ar: Array<Int>): Int {
+        // Write your code here
+        var count = 0
+        for (i in ar.indices) {
+            for (j in i + 1 until ar.size) {
+                val pairOne = ar[i]
+                val pairTwo = ar[j]
+                Log.d(TAG, "$pairOne   $pairTwo  ")
+                if ((pairOne + pairTwo) % k == 0) {
+                    val test = readLine()
+                    count++
+                    Log.d(TAG, "count is $count")
+                }
+            }
+        }
+        return count
+    }
+
+    fun hurdleRace(k: Int, height: Array<Int>): Int {
+        // Write your code here
+        var highestHurdle = 0
+        height.forEach { _heiht ->
+            if (_heiht > highestHurdle) {
+                highestHurdle = _heiht
+            }
+
+        }
+        val requiredBills = highestHurdle - k
+        return if (requiredBills > 0) requiredBills else 0
+
     }
 
     fun bonAppetit(bill: Array<Int>, k: Int, b: Int): Unit {
         // Write your code here
-        val annaBill = bill
-        annaBill.toMutableList().removeAt(k)
+        val annaBill = bill.toMutableList()
+        annaBill.removeAt(k)
+        Log.d(TAG, "ann list ${annaBill.map { it }}")
         val annMoney = annaBill.sum() / 2
+        Log.d(TAG, "ann share $annMoney")
         if (annMoney == b) {
             println("Bon Appetit")
         } else {
-            println(b-annMoney)
+            println(b - annMoney)
         }
 
     }
