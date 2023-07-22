@@ -14,12 +14,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val test = arrayOf(73, 67, 38, 33)
-        Log.d(TAG, kangaroo(14, 4, 98, 2))
+        Log.d(TAG, getTotalX(arrayOf(2, 6), arrayOf(24, 36)).toString())
+
+    }
+
+    fun getTotalX(a: Array<Int>, b: Array<Int>): Int {
+        // Write your code here
+        var correctNumber = 0
+        val suspectedRange = a.last()..b.first()
+        for (num in suspectedRange) {
+            var numTest = 0
+
+            a.forEach { _a ->
+                if (num % _a != 0) {
+                    return@forEach
+                }
+                numTest += 1
+            }
+
+            b.forEach { _b ->
+                if (_b % num != 0) {
+                    return@forEach
+                }
+                numTest += 1
+            }
+
+            if (numTest == 2) {
+                correctNumber += 1
+                numTest = 0
+            }
+
+        }
+        return correctNumber
 
     }
 
     fun kangaroo(x1: Int, v1: Int, x2: Int, v2: Int): String {
-        if (v1 * v2 < 0 && x2 - x1 > v1 - v2){
+        if (v1 * v2 < 0 && x2 - x1 > v1 - v2) {
             return "NO"
         }
         // Write your code here
