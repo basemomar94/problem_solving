@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlin.math.abs
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "google"
@@ -14,9 +12,48 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val test = arrayOf(73, 67, 38, 33)
-        Log.d(TAG, getTotalX(arrayOf(2, 6), arrayOf(24, 36)).toString())
+        Log.d(TAG, migratoryBirds(arrayOf(1 ,2, 3, 4, 5, 4, 3, 2, 1, 3, 4)).toString())
 
     }
+
+    fun migratoryBirds1(arr: Array<Int>): Int {
+        // Write your code here
+        val repetitionList = mutableListOf<Int>()
+        var highestRep = 0
+        arr.forEach { bird ->
+            val birdRepetition = arr.filter { it == bird }.size
+            if (birdRepetition > highestRep) {
+                highestRep = birdRepetition
+                repetitionList.clear()
+                repetitionList.add(bird)
+            } else if (birdRepetition == highestRep) {
+                repetitionList.add(bird)
+            }
+
+        }
+        return repetitionList.sorted().first()
+
+    }
+    fun migratoryBirds(arr: Array<Int>): Int {
+        // Write your code here
+        val repetitionList = mutableListOf<Int>()
+        var highestRep = 0
+        arr.forEach { bird ->
+            val birdRepetition = arr.filter { it == bird }.size
+            if (birdRepetition > highestRep) {
+                highestRep = birdRepetition
+                repetitionList.clear()
+                repetitionList.add(bird)
+            } else if (birdRepetition == highestRep) {
+                repetitionList.add(bird)
+            }
+
+        }
+        return repetitionList.sorted().first()
+
+    }
+
+
 
     fun getTotalX(a: Array<Int>, b: Array<Int>): Int {
         // Write your code here
@@ -39,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 numTest += 1
             }
 
-            if (numTest == 2) {
+            if (numTest == a.size + b.size) {
                 correctNumber += 1
                 numTest = 0
             }
@@ -167,7 +204,7 @@ class MainActivity : AppCompatActivity() {
         a: Int,
         b: Int,
         apples: Array<Int>,
-        oranges: Array<Int>
+        oranges: Array<Int>,
     ): Unit {
         // Write your code here
         val houseRange = s..t
