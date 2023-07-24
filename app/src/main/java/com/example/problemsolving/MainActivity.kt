@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "google"
@@ -79,8 +81,88 @@ class MainActivity : AppCompatActivity() {
             BDistance > ADistance -> "Cat A"
             else -> "Mouse C"
         }
+        val bigString =
+            "2 5 2 5 5 5 2 2 5 "
+        val arr = bigString.trimEnd().split(" ").map { it.toInt() }.toTypedArray()
+        Log.d(TAG, viralAdvertising(5).toString())
 
     }
+
+    fun getMoneySpent(keyboards: Array<Int>, drives: Array<Int>, b: Int): Int {
+        var highestPurchase = 0
+        keyboards.sorted().forEach { key ->
+
+            drives.sorted().forEach { drive ->
+                val cost = key + drive
+                if (cost <= b) {
+                    if (cost > highestPurchase) {
+                        highestPurchase = cost
+                    }
+                } else {
+                    return highestPurchase
+                }
+
+
+            }
+
+        }
+        return highestPurchase
+
+    }
+
+    fun viralAdvertising(n: Int): Int {
+        var shareCount = 0
+        var seenCount = 5
+        for (i in 1..n) {
+            val likedCount = Math.floor((seenCount / 2).toDouble()).toInt()
+            seenCount = likedCount * 3
+            shareCount += likedCount
+            Log.d(TAG, "day $i seen $seenCount  share $shareCount")
+
+
+        }
+        return shareCount
+
+    }
+
+    fun migratoryBirds(arr: Array<Int>): Int {
+        // Write your code here
+        val repetitionList = mutableListOf<Int>()
+        var highestRep = 0
+        val repetitionMap = arr.groupingBy { it }.eachCount()
+        repetitionMap.forEach { map ->
+            if (map.value > highestRep) {
+                highestRep = map.value
+                repetitionList.clear()
+                repetitionList.add(map.key)
+            } else if (map.value == highestRep) {
+                repetitionList.add(map.key)
+            }
+        }
+        Log.d(TAG, "map is $repetitionList")
+        return repetitionList.sorted().first()
+
+    }
+
+    fun migratoryBirds1(arr: Array<Int>): Int {
+        // Write your code here
+        val repetitionList = mutableListOf<Int>()
+        var highestRep = 0
+        arr.forEach { bird ->
+            val birdRepetition = arr.filter { it == bird }.size
+            if (birdRepetition > highestRep) {
+                highestRep = birdRepetition
+                repetitionList.clear()
+                repetitionList.add(bird)
+            } else if (birdRepetition == highestRep) {
+                repetitionList.add(bird)
+            }
+
+        }
+        return repetitionList.sorted().first()
+
+    }
+
 
     fun getTotalX(a: Array<Int>, b: Array<Int>): Int {
         // Write your code here
@@ -103,7 +185,7 @@ class MainActivity : AppCompatActivity() {
                 numTest += 1
             }
 
-            if (numTest == 2) {
+            if (numTest == a.size + b.size) {
                 correctNumber += 1
                 numTest = 0
             }
@@ -231,7 +313,7 @@ class MainActivity : AppCompatActivity() {
         a: Int,
         b: Int,
         apples: Array<Int>,
-        oranges: Array<Int>
+        oranges: Array<Int>,
     ): Unit {
         // Write your code here
         val houseRange = s..t
