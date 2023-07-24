@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,28 @@ class MainActivity : AppCompatActivity() {
             "2 5 2 5 5 5 2 2 5 "
         val arr = bigString.trimEnd().split(" ").map { it.toInt() }.toTypedArray()
         Log.d(TAG, viralAdvertising(5).toString())
+
+    }
+
+    fun getMoneySpent(keyboards: Array<Int>, drives: Array<Int>, b: Int): Int {
+        var highestPurchase = 0
+        keyboards.sorted().forEach { key ->
+
+            drives.sorted().forEach { drive ->
+                val cost = key + drive
+                if (cost <= b) {
+                    if (cost > highestPurchase) {
+                        highestPurchase = cost
+                    }
+                } else {
+                    return highestPurchase
+                }
+
+
+            }
+
+        }
+        return highestPurchase
 
     }
 
