@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "google"
@@ -16,12 +14,51 @@ class MainActivity : AppCompatActivity() {
         val test = arrayOf(73, 67, 38, 33)
         Log.d(
             TAG,
-            birthday(
-                arrayOf(2, 5, 1, 3, 4, 4, 3, 5, 1, 1, 2, 1, 4, 1, 3, 3, 4, 2, 1),
-                18,
-                7
+            pickingNumbers(
+                arrayOf(4, 6, 5, 3, 3, 1)
             ).toString()
         )
+
+    }
+
+    fun pickingNumbers(a: Array<Int>): Int {
+        val possibleAnswersMap = mutableMapOf<List<Int>, Int>()
+        val sortedList = a.sorted() // 4 6 5 3 3 1 ->>  1 3 3 4 5 6
+        for (i in sortedList.indices) {
+            val possibleList = mutableListOf<Int>()
+            val currentNum = sortedList[i]
+            possibleList.add(currentNum)
+            for (j in i + 1 until sortedList.size) {
+                val comparingNum = sortedList[j]
+                val different = Math.abs(currentNum - comparingNum)
+                if (different <= 1) {
+                    possibleList.add(comparingNum)
+                } else {
+                    break
+                }
+            }
+            possibleAnswersMap[possibleList] = possibleList.size
+
+        }
+        Log.d(TAG, "map is $possibleAnswersMap")
+
+        return possibleAnswersMap.map { it.value }.sorted().last()
+
+
+    }
+
+    fun sockMerchant(n: Int, ar: Array<Int>): Int {
+        val mapOfRepetition = ar.groupingBy { it }.eachCount()
+        Log.d(TAG, "set is $mapOfRepetition")
+        var pairCount = 0
+
+        mapOfRepetition.forEach { (_, repeat) ->
+            val coupleRepeat = repeat / 2
+            pairCount += coupleRepeat
+        }
+
+
+        return pairCount
 
     }
 
@@ -52,13 +89,14 @@ class MainActivity : AppCompatActivity() {
         return barDivisions
 
     }
+
     fun birthday(s: Array<Int>, d: Int, m: Int): Int {
         var barDivisions = 0
         if (s.size >= m) { // There should be at least m elements in s for a valid division
             for (i in 0..s.size - m) { // Adjust the loop to prevent index out of bounds
                 val possibleCombination = mutableListOf<Int>()
                 for (j in i until i + m) { // Only add m elements to the combination
-                    Log.d(TAG,"$i ${s.size} ")
+                    Log.d(TAG, "$i ${s.size} ")
                     possibleCombination.add(s[j])
                 }
 
