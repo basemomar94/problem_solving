@@ -1,11 +1,9 @@
 package com.example.problemsolving
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.abs
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "google"
@@ -14,7 +12,73 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val test = arrayOf(73, 67, 38, 33)
-        Log.d(TAG, getTotalX(arrayOf(2, 6), arrayOf(24, 36)).toString())
+        Log.d(
+            TAG,
+            birthday(
+                arrayOf(2, 5, 1, 3, 4, 4, 3, 5, 1, 1, 2, 1, 4, 1, 3, 3, 4, 2, 1),
+                18,
+                7
+            ).toString()
+        )
+
+    }
+
+    fun birthday2(s: Array<Int>, d: Int, m: Int): Int {
+        var barDivisions = 0
+        if (s.size == 1) {
+            barDivisions = 1
+        } else {
+            for (i in s.indices) {
+                val possibleCombination = mutableListOf<Int>()
+                possibleCombination.add(s[i])
+                for (j in i + 1 until s.size) {
+                    if (possibleCombination.size <= m && possibleCombination.sum() <= d) {
+                        possibleCombination.add(s[j])
+                        Log.d(
+                            TAG,
+                            "$possibleCombination  size ${possibleCombination.size} sum  ${possibleCombination.sum()}"
+                        )
+                    }
+                }
+
+                if (possibleCombination.size == m && possibleCombination.sum() == d) {
+                    barDivisions += 1
+                }
+            }
+
+        }
+        return barDivisions
+
+    }
+    fun birthday(s: Array<Int>, d: Int, m: Int): Int {
+        var barDivisions = 0
+        if (s.size >= m) { // There should be at least m elements in s for a valid division
+            for (i in 0..s.size - m) { // Adjust the loop to prevent index out of bounds
+                val possibleCombination = mutableListOf<Int>()
+                for (j in i until i + m) { // Only add m elements to the combination
+                    Log.d(TAG,"$i ${s.size} ")
+                    possibleCombination.add(s[j])
+                }
+
+                if (possibleCombination.sum() == d) {
+                    barDivisions += 1
+                }
+            }
+        }
+        return barDivisions
+    }
+
+
+    // 1 2 3
+    fun catAndMouse(x: Int, y: Int, z: Int): String {
+        val ADistance = Math.abs(x - z) // 2
+        val BDistance = Math.abs(y - z) // 1
+
+        return when {
+            ADistance > BDistance -> "Cat B"
+            BDistance > ADistance -> "Cat A"
+            else -> "Mouse C"
+        }
 
     }
 
