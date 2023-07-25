@@ -11,13 +11,59 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val test = arrayOf(73, 67, 38, 33)
         Log.d(
-            TAG,
-            pickingNumbers(
-                arrayOf(4, 6, 5, 3, 3, 1)
+            TAG, saveThePrisoner(
+                7, 19, 2
             ).toString()
         )
+
+
+    }
+
+    private fun testPrint(test: String) {
+        var oodIndex: String = ""
+        var evenIndex: String = ""
+        test.forEachIndexed { index, c ->
+            if (index % 2 == 0) {
+                evenIndex = "$evenIndex$c"
+            } else {
+                oodIndex = "$oodIndex$c"
+            }
+            Log.d(TAG, "$evenIndex  $oodIndex")
+        }
+        println("$oodIndex $evenIndex")
+    }
+
+    fun saveThePrisoner(n: Int, m: Int, s: Int): Int {
+        var warningNum = -1
+        var remainingSweetAmount = m
+        val prisonersList = (1..n).toList()
+        var currentIndex = s - 1 // Subtract 1 to convert to 0-based index
+
+        while (remainingSweetAmount > 0) {
+            currentIndex = (currentIndex + 1) % n
+            Log.d(TAG,"current index $currentIndex")
+            val currentPrisoner = prisonersList[currentIndex]
+            remainingSweetAmount -= 1
+
+            if (remainingSweetAmount == 0) {
+                warningNum = currentPrisoner
+            }
+        }
+        return warningNum
+    }
+
+
+    fun serviceLane(n: Int, cases: Array<Array<Int>>): Array<Int> {
+        // Write your code here
+        val maxWidth = mutableListOf<Int>()
+        cases.forEach {
+            val narrowest = it.min()
+            Log.d(TAG, "case $it  $narrowest")
+            //  Log.d(TAG,"max $max")
+
+        }
+        return maxWidth.toTypedArray()
 
     }
 
