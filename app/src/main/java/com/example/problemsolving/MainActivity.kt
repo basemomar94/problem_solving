@@ -12,12 +12,84 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Log.d(
-            TAG, saveThePrisoner(
-                7, 19, 2
+            TAG, marsExploration(
+                "SOSSPSSQSSOR"
             ).toString()
         )
 
 
+    }
+
+    fun marsExploration(s: String): Int {
+        val sos = "SOS"
+        var count = 0
+        var irrigation = 1
+        var compareSoS = StringBuilder()
+        s.forEach { c ->
+            compareSoS.append(c)
+            if (irrigation % 3 == 0) {
+                Log.d(TAG, "compareSoS $compareSoS $irrigation")
+                if (compareSoS.toString() != sos) {
+                    compareSoS.forEachIndexed { index, c ->
+                        if (compareSoS[index] != sos[index]) {
+                            count += 1
+                        }
+                    }
+
+                }
+                compareSoS.clear()
+            }
+            irrigation += 1
+        }
+
+        return count
+
+    }
+
+    fun hackerrankInString1(s: String): String {
+        val hackerRank = "hackerrank"
+        var currentIndex = 0
+        s.forEach {
+            if (hackerRank[currentIndex] == it) {
+
+            }
+
+        }
+        return if (hackerRank.isEmpty()) "YES" else "NO"
+    }
+
+    fun hackerrankInString(s: String): String {
+        val hackerRank = "hackerrank".toMutableList()
+        val hackRankMap = mutableMapOf<Int, Char>()
+        hackerRank.forEachIndexed { index, c ->
+            Log.d(TAG, "index $index $c")
+            hackRankMap[index] = c
+        }
+        Log.d(TAG, "map before $hackRankMap")
+        var currentIndex = 0
+        s.forEach {
+            if (hackRankMap[currentIndex] == it) {
+                hackerRank.remove(it)
+                // hackRankMap.remove(it, currentIndex)
+                currentIndex += 1
+            }
+        }
+        Log.d(TAG, "tested $hackerRank $hackRankMap")
+        return if (hackerRank.isEmpty()) "YES" else "NO"
+    }
+
+    fun cutTheSticks(arr: Array<Int>): Array<Int> {
+        // Write your code here
+        val answersList = mutableListOf<Int>()
+        val sticksList = arr.toMutableList()
+        while (sticksList.isNotEmpty()) {
+            answersList.add(sticksList.size)
+            val smallestItem = sticksList.min()
+            sticksList.removeAll { it == smallestItem }
+            sticksList.replaceAll { it - smallestItem }
+        }
+        Log.d(TAG, "$answersList")
+        return answersList.toTypedArray()
     }
 
     private fun testPrint(test: String) {
@@ -42,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
         while (remainingSweetAmount > 0) {
             currentIndex = (currentIndex + 1) % n
-            Log.d(TAG,"current index $currentIndex")
+            Log.d(TAG, "current index $currentIndex")
             val currentPrisoner = prisonersList[currentIndex]
             remainingSweetAmount -= 1
 
