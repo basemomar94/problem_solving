@@ -3,6 +3,7 @@ package com.example.problemsolving
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import java.util.*
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
@@ -12,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Log.d(
-            TAG, marsExploration(
-                "SOSSPSSQSSOR"
+            TAG, circularArrayRotation(
+                arrayOf(3, 4, 5), 2, arrayOf(1, 2)
             ).toString()
         )
 
@@ -90,6 +91,44 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d(TAG, "$answersList")
         return answersList.toTypedArray()
+    }
+
+    fun camelcase(s: String) = s.toList().map { it.isUpperCase() }.filter { it }.size + 1
+
+
+    fun findDigits(n: Int): Int {
+        var answersCount = 0
+        n.toString().forEach { num ->
+            if (n % num.toString().toInt() == 0) {
+                answersCount += 1
+            }
+
+        }
+        return answersCount
+
+    }
+
+    fun circularArrayRotation(a: Array<Int>, k: Int, queries: Array<Int>): Array<Int> {
+        var rotationNum = 0
+        var rotatedList = mutableListOf<Int>()
+        var index = 0
+        while (rotationNum < k * a.size) {
+            index = (index + 1) % a.size
+
+            if (rotatedList.size == a.size) {
+                Log.d(TAG, "rotated list is $rotatedList")
+                rotatedList.clear()
+            }
+            val addedNum = a[index]
+            Log.d(TAG, "$addedNum")
+            rotatedList.add(addedNum)
+            rotationNum++
+        }
+        var answer = mutableListOf<Int>()
+        Log.d(TAG, "answer is ${queries.map { a[it] }}")
+
+        return queries.map { a[it] }.toTypedArray()
+
     }
 
     private fun testPrint(test: String) {
@@ -242,6 +281,25 @@ class MainActivity : AppCompatActivity() {
         val arr = bigString.trimEnd().split(" ").map { it.toInt() }.toTypedArray()
         Log.d(TAG, viralAdvertising(5).toString())
 
+    }
+
+    fun designerPdfViewer(h: Array<Int>, word: String): Int {
+        // Write your code here
+        val widths = word.length
+        var height = 0
+        var highestLetter = 0
+        word.forEach { char ->
+            height = h[getCharPosition(char)]
+            if (height > highestLetter) {
+                highestLetter = height
+            }
+        }
+        return highestLetter * widths
+    }
+
+    fun getCharPosition(c: Char): Int {
+        val line = "abcdefghijklmnopqrstuvwxyz"
+        return line.indexOf(c.toString())
     }
 
     fun getMoneySpent(keyboards: Array<Int>, drives: Array<Int>, b: Int): Int {
