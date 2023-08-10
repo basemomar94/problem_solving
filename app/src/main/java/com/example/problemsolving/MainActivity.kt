@@ -3,7 +3,7 @@ package com.example.problemsolving
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
+import java.util.Scanner
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
@@ -13,11 +13,112 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Log.d(
-            TAG, circularArrayRotation(
-                arrayOf(3, 4, 5), 2, arrayOf(1, 2)
+            TAG, "answer is" + minimumDeleteSum(
+                "sea", "eat"
             ).toString()
         )
 
+
+
+    }
+    fun minimumDeleteSum(s1: String, s2: String): Int {
+        val m = s1.length
+        val n = s2.length
+
+        // Create a 2D array to store the minimum ASCII sum of deleted characters
+        val dp = Array(m + 1) { IntArray(n + 1) }
+
+        // Initialize the base cases
+        for (i in 0..m) {
+            dp[i][n] = s1.substring(i).sumOf { it.toInt() }
+        }
+        for (j in 0..n) {
+            dp[m][j] = s2.substring(j).sumOf { it.toInt() }
+        }
+
+        // Fill the remaining cells
+        for (i in m - 1 downTo 0) {
+            for (j in n - 1 downTo 0) {
+                if (s1[i] == s2[j]) {
+                    dp[i][j] = dp[i + 1][j + 1]
+                } else {
+                    dp[i][j] = minOf(dp[i + 1][j] + s1[i].toInt(), dp[i][j + 1] + s2[j].toInt())
+                }
+            }
+        }
+
+        return dp[0][0]
+    }
+
+
+    fun LogDumpGetUnique(): String {
+        var log_dump : String = "name=John Trust, username=john3, email=john3@gmail.com, id=434453; name=Hannah Smith, username=hsmith, email=hsm@test.com, id=23312; name=Hannah Smith, username=hsmith, id=3223423, email=hsm@test.com; name=Robert M, username=rm44, id=222342, email=rm@me.com; name=Robert M, username=rm4411, id=5535, email=rm@me.com; name=Susan Vee, username=sv55, id=443432, email=susanv123@me.com; name=Robert Nick, username=rnick33, id=23432, email=rnick@gmail.com; name=Robert Nick II, username=rnickTemp34, id=23432, email=rnick@gmail.com; name=Susan Vee, username=sv55, id=443432, email=susanv123@me.com;"
+     var t = log_dump.substringBefore("")
+        // Initialize an empty set to hold unique users
+        val uniqueUsers = mutableSetOf<String>()
+
+        // Iterate over each user data string
+        for (userData in log_dump.split(";")) {
+            // Trim and split the user data into its individual components
+            val components = userData.trim().split(",").map { it.trim() }
+
+            // Create a string with only name, username, and email (ignoring id)
+            val userWithoutId = components.take(3).joinToString(", ")
+
+            // Add the string to the set (automatically removes duplicates)
+            uniqueUsers.add(userWithoutId)
+        }
+
+        // Convert the set of unique users back into the original string format
+        return uniqueUsers.joinToString("; ")
+    }
+
+    fun main() {
+        println(LogDumpGetUnique())
+    }
+
+
+
+    fun repeatedString2(s: String, n: Long): Long {
+        var printNum = mutableListOf<String>()
+        println(printNum.joinToString(separator = " "))
+        // Write your code here
+        if (s.length == 1) {
+            return n
+        } else {
+            var repeatString = s
+            while (n >= repeatString.length) {
+                repeatString += repeatString
+                Log.d(TAG, "repeat in this loop ${repeatString.length} ")
+            }
+            val requiredString = repeatString.toList().take((n).toInt())
+            Log.d(TAG, "requiredString out this loop ${requiredString.size} ")
+            return requiredString.filter { it == 'a' }.size.toLong()
+        }
+
+
+    }
+
+    fun minimumDistances(a: Array<Int>): Int {
+        var miniMumDistance = Int.MAX_VALUE
+        for (i in a.indices) {
+            for (j in i + 1 until a.size) {
+                val numOne = a[i]
+                val numTwo = a[j]
+                Log.d(TAG, "$numOne  $numTwo")
+
+                if (numOne == numTwo) {
+                    val distance = Math.abs(j - i)
+                    Log.d(TAG, "distance is $distance")
+                    if (distance < miniMumDistance) {
+                        miniMumDistance = distance
+                    }
+                }
+
+            }
+
+        }
+        return if (miniMumDistance < 0 || miniMumDistance == Int.MAX_VALUE) -1 else miniMumDistance
 
     }
 
